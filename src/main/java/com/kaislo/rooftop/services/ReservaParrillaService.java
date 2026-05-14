@@ -26,4 +26,16 @@ public class ReservaParrillaService {
             throw new RuntimeException("El bloque horario seleccionado ya se encuentra ocupado.");
         }
     }
+
+    public ReservaParrilla cambiarEstado(Long idReserva, String nuevoEstado) {
+        // 1. Buscamos la reserva, si no existe lanzamos un error
+        ReservaParrilla reserva = reservaRepository.findById(idReserva)
+                .orElseThrow(() -> new RuntimeException("La reserva con ID " + idReserva + " no existe."));
+
+        // 2. Actualizamos el estado ("Cancelada", "Finalizada", etc.)
+        reserva.setEstado(nuevoEstado);
+
+        // 3. Guardamos los cambios en PostgreSQL
+        return reservaRepository.save(reserva);
+    }
 }
