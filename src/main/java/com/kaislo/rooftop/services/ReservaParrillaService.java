@@ -19,6 +19,12 @@ public class ReservaParrillaService {
     }
 
     public ReservaParrilla crearReserva(ReservaParrilla nuevaReserva) {
+        // REGLA DE NEGOCIO: Máximo 1 reserva activa por residente
+        Long idDelVecino = nuevaReserva.getResidente().getIdResidente();
+        if (reservaRepository.existsByResidente_IdResidenteAndEstado(idDelVecino, "Confirmada")) {
+            throw new RuntimeException("Este residente ya tiene un turno reservado. Debe esperar a que finalice para reservar otro.");
+        }
+
         nuevaReserva.setEstado("Confirmada");
         try {
             return reservaRepository.save(nuevaReserva);
