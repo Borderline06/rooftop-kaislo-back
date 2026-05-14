@@ -7,6 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/residentes") // Esta es la URL de tu API
+@CrossOrigin(origins = "http://localhost:5173")
 public class ResidenteController {
 
     private final ResidenteService residenteService;
